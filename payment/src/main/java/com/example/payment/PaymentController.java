@@ -1,7 +1,8 @@
-package com.example.order;
+package com.example.payment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +14,11 @@ import javax.validation.Valid;
 @Slf4j
 @RequestMapping("/order")
 @RequiredArgsConstructor
-public class OrderController {
-    private final OrderService orderService;
+public class PaymentController {
+    private final PaymentService paymentService;
     @PostMapping()
-    public void createOrder(@RequestBody @Valid OrderRequest orderRequest) {
-        orderService.createOrder(orderRequest);
-
+    public ResponseEntity<String> createPayment(@RequestBody @Valid PaymentRequest paymentRequest) {
+        paymentService.createPaymentRequest(paymentRequest);
+        return ResponseEntity.ok("Payment request was created");
     }
 }
