@@ -2,6 +2,7 @@ package com.example.order;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,8 @@ import javax.validation.Valid;
 public class OrderController {
     private final OrderService orderService;
     @PostMapping()
-    public void createOrder(@RequestBody @Valid OrderRequest orderRequest) {
+    public ResponseEntity<?> createOrder(@RequestBody @Valid OrderRequest orderRequest) {
         orderService.createOrder(orderRequest);
-
+        return ResponseEntity.ok("Order was successfully placed");
     }
 }
