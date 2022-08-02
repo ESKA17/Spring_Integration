@@ -1,4 +1,4 @@
-package com.example.payment;
+package com.example.mailing;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -7,33 +7,32 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
-import static com.example.payment.Constants.*;
+import static com.example.mailing.Constants.*;
+
 @Configuration
-@EnableScheduling
-public class RabbitMQConfig {
+public class RabbitConf {
     @Bean
-    public Queue queue() {
-        return  new Queue(PAYMENT_QUEUE);
+    public Queue mailQueue() {
+        return  new Queue(MAIL_QUEUE);
     }
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(CORE_EXCHANGE);
+        return new TopicExchange(MAIL_EXCHANGE);
     }
 
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
+    public Binding mailBinding(Queue mailQueue, TopicExchange exchange) {
         return BindingBuilder
-                .bind(queue)
+                .bind(mailQueue)
                 .to(exchange)
-                .with(PAYMENT_ROUTING_KEY);
+                .with(MAIL_ROUTING_KEY);
     }
 
     @Bean
     public MessageConverter messageConverter() {
-        return  new Jackson2JsonMessageConverter();
+        return new Jackson2JsonMessageConverter();
     }
 
     @Bean
